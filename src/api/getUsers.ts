@@ -1,9 +1,11 @@
 import { User } from "../types";
 
-export const getUsers = async (pageNumber: number): Promise<User[]> => {
-	const query = pageNumber
-		? `orderBy="$key"&startAt="${pageNumber + 1}"&limitToFirst=${20}`
-		: `orderBy="$key"&limitToFirst=${20}`;
+export const getUsers = async (lastIndex: number, limit = '20'): Promise<User[]> => {
+	const query = lastIndex
+		? `orderBy="$key"&startAt="${lastIndex + 1}"&limitToFirst=${limit}`
+		: `orderBy="$key"&limitToFirst=${limit}`;
+
+    
 	const response = await fetch(
 		`https://testforinfinitesynergy-default-rtdb.europe-west1.firebasedatabase.app/.json/?${query}`
 	);
@@ -19,6 +21,8 @@ export const getUsers = async (pageNumber: number): Promise<User[]> => {
 			index: key,
 		};
 	});
+
+	console.log(itemsArray);
 
 	return itemsArray;
 };

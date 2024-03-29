@@ -1,14 +1,14 @@
-type ChangedUserData = {
+export type ChangedUserData = {
 	name?: string;
 	department?: string;
 	company?: string;
 	jobTitle?: string;
-	id?: string;
 };
 
 export const changeUserData = async (
 	userIndex: string,
-	userData: ChangedUserData
+	userData: ChangedUserData,
+	onSuccess: (userIndex: string, changedUserData: ChangedUserData) => void
 ): Promise<void> => {
 	try {
 		const response = await fetch(
@@ -25,6 +25,8 @@ export const changeUserData = async (
 		if (!response.ok) {
 			throw new Error("Network response was not ok");
 		}
+
+		onSuccess(userIndex, userData);
 	} catch (error) {
 		console.error("Error updating user data:", error);
 	}

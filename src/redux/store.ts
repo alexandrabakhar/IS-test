@@ -6,10 +6,12 @@ import {
 	useSelector,
 } from "react-redux";
 import { currentUserReducer } from "./slices/user";
+import { loadReducer } from "./slices/load";
 
 export const appStore = configureStore({
 	reducer: {
 		currentUser: currentUserReducer,
+		load: loadReducer,
 	},
 });
 

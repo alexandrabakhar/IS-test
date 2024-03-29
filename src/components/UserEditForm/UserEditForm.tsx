@@ -1,9 +1,11 @@
 import React from "react";
 import { CustomInput } from "../CustomInput/CustomInput";
 import S from "./styles.module.css";
-import { useAppSelector } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 
-import { changeUserData } from "../../api/changeUserData";
+import { ChangedUserData, changeUserData } from "../../api/changeUserData";
+import { setChangedUser } from "../../redux/slices/load";
+import { setChangedUserData } from "../../redux/slices/user";
 
 type FormFields = {
 	name: HTMLInputElement;
@@ -20,7 +22,14 @@ export const UserEditForm = () => {
 		id,
 		index,
 	} = useAppSelector((state) => state.currentUser);
-
+	const dispatch = useAppDispatch();
+	const onChangedUserSuccess = (
+		userIndex: string,
+		changedUserData: ChangedUserData
+	) => {
+		dispatch(setChangedUser({ changedUserIndex: userIndex }));
+		dispatch(setChangedUserData(changedUserData));
+	};
 	const handleSubmit: React.FormEventHandler<HTMLFormElement & FormFields> = (
 		event
 	) => {
@@ -44,7 +53,7 @@ export const UserEditForm = () => {
 			}),
 		};
 
-		changeUserData(index, changedUserData);
+		changeUserData(index, changedUserData, onChangedUserSuccess);
 	};
 
 	return (

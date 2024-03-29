@@ -25,7 +25,7 @@ const currentUserSlice = createSlice({
 				company: string;
 				jobTitle: string;
 				id: string;
-				index: string
+				index: string;
 			}>
 		) => {
 			state.company = payload.company;
@@ -33,10 +33,31 @@ const currentUserSlice = createSlice({
 			state.jobTitle = payload.jobTitle;
 			state.name = payload.name;
 			state.id = payload.id;
-			state.index = payload.index
+			state.index = payload.index;
+		},
+
+		setChangedUserData: (
+			state,
+			{
+				payload,
+			}: PayloadAction<{
+				name?: string;
+				department?: string;
+				company?: string;
+				jobTitle?: string;
+			}>
+		) => {
+			state.company = payload.company ? payload.company : state.company;
+			state.department = payload.department
+				? payload.department
+				: state.department;
+			state.jobTitle = payload.jobTitle
+				? payload.jobTitle
+				: state.jobTitle;
+			state.name = payload.name ? payload.name : state.name;
 		},
 	},
 });
 
-export const { setCurrentUserData } = currentUserSlice.actions;
+export const { setCurrentUserData, setChangedUserData } = currentUserSlice.actions;
 export const currentUserReducer = currentUserSlice.reducer;
