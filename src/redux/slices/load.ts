@@ -1,40 +1,35 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState: {
-	isFetching: boolean;
-    isRefetchUser: boolean
-    changedUserIndex: string
+	changedUserIndex: string;
+	isLoading: boolean;
+	isRefetching: boolean;
 } = {
-	isFetching: false,
-    isRefetchUser: false,
-    changedUserIndex: ''
+	changedUserIndex: "",
+	isLoading: false,
+	isRefetching: false,
 };
 
 const loadSlice = createSlice({
 	name: "load",
 	initialState,
 	reducers: {
-		setIsFetching: (
-			state,
-			{ payload }: PayloadAction<{ isFetching: boolean }>
-		) => {
-			state.isFetching = payload.isFetching;
-		},
-        setRefetchUsers: (
-			state,
-			{ payload }: PayloadAction<{ isRefetchUsers: boolean }>
-		) => {
-			state.isRefetchUser = payload.isRefetchUsers;
-		},
-        setChangedUser: (
+		startRefetchUsers: (
 			state,
 			{ payload }: PayloadAction<{ changedUserIndex: string }>
 		) => {
-			state.isRefetchUser = true;
-            state.changedUserIndex = payload.changedUserIndex
+			state.isRefetching = true;
+			state.changedUserIndex = payload.changedUserIndex;
+		},
+		endRefetchUsers: (state) => {
+			state.isRefetching = false;
+			state.changedUserIndex = "";
+		},
+		setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
+			state.isLoading = payload;
 		},
 	},
 });
 
-export const { setIsFetching, setRefetchUsers, setChangedUser } = loadSlice.actions;
+export const { startRefetchUsers, endRefetchUsers, setIsLoading } = loadSlice.actions;
 export const loadReducer = loadSlice.reducer;

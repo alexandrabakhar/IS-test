@@ -1,7 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types";
 
-type UserState = User;
+type UserState = User & {
+	isSelected?: boolean;
+};
 const initialState: UserState = {
 	name: "",
 	department: "",
@@ -9,6 +11,7 @@ const initialState: UserState = {
 	jobTitle: "",
 	id: "",
 	index: "",
+	isSelected: false,
 };
 
 const currentUserSlice = createSlice({
@@ -34,6 +37,7 @@ const currentUserSlice = createSlice({
 			state.name = payload.name;
 			state.id = payload.id;
 			state.index = payload.index;
+			state.isSelected = true;
 		},
 
 		setChangedUserData: (
@@ -59,5 +63,6 @@ const currentUserSlice = createSlice({
 	},
 });
 
-export const { setCurrentUserData, setChangedUserData } = currentUserSlice.actions;
+export const { setCurrentUserData, setChangedUserData } =
+	currentUserSlice.actions;
 export const currentUserReducer = currentUserSlice.reducer;

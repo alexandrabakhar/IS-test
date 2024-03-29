@@ -4,8 +4,9 @@ import S from "./styles.module.css";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 
 import { ChangedUserData, changeUserData } from "../../api/changeUserData";
-import { setChangedUser } from "../../redux/slices/load";
+
 import { setChangedUserData } from "../../redux/slices/user";
+import { startRefetchUsers } from "../../redux/slices/load";
 
 type FormFields = {
 	name: HTMLInputElement;
@@ -22,12 +23,13 @@ export const UserEditForm = () => {
 		id,
 		index,
 	} = useAppSelector((state) => state.currentUser);
+	const { isLoading } = useAppSelector((state) => state.load);
 	const dispatch = useAppDispatch();
 	const onChangedUserSuccess = (
 		userIndex: string,
 		changedUserData: ChangedUserData
 	) => {
-		dispatch(setChangedUser({ changedUserIndex: userIndex }));
+		dispatch(startRefetchUsers({ changedUserIndex: userIndex }));
 		dispatch(setChangedUserData(changedUserData));
 	};
 	const handleSubmit: React.FormEventHandler<HTMLFormElement & FormFields> = (
@@ -52,6 +54,10 @@ export const UserEditForm = () => {
 				jobTitle: jobTitle.value,
 			}),
 		};
+
+		if (!Object.keys(changedUserData).length) {
+			return;
+		}
 
 		changeUserData(index, changedUserData, onChangedUserSuccess);
 	};
@@ -81,7 +87,7 @@ export const UserEditForm = () => {
 					labelText="Должность"
 				/>
 				<button className={S.button} type="submit">
-					Отправить
+					{isLoading ? "Отправка..." : "Отправить"}
 				</button>
 			</form>
 		</div>

@@ -1,80 +1,27 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { User } from "../../types";
+import React, { useRef, useEffect, useCallback, memo } from "react";
+
 import { UserCard } from "../UserCard/UserCard";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { setCurrentUserData } from "../../redux/slices/user";
 import S from "./styles.module.css";
-import { getUsers } from "../../api/getUsers";
-import { setRefetchUsers } from "../../redux/slices/load";
 
-const VirtualizedList = () => {
-	const [users, setUsers] = useState<User[]>([]);
-	const [lastIndex, setLastIndex] = useState(0);
-	const [isLoading, setIsLoading] = useState(false);
+import { useUsersLoader } from "../../hooks/useUserLoader";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll";
+
+export const UsersList = memo(() => {
 	const loaderRef = useRef<HTMLDivElement | null>(null);
-
-	useEffect(() => {
-		setLastIndex(users.length);
-	}, [users.length]);
-
-	const { isRefetchUser, changedUserIndex } = useAppSelector(
+	const dispatch = useAppDispatch();
+	const { fetchUsers, refetchUsers, users } = useUsersLoader();
+	const { isRefetching, changedUserIndex, isLoading } = useAppSelector(
 		(state) => state.load
 	);
-	const refetchUsers = useCallback(
-		async (changedIndex: string) => {
-			setIsLoading(true);
-			console.log(changedIndex);
-
-			const limit = Number(changedIndex) <= 20 ? "20" : Number(changedIndex) + 1;
-			console.log(limit);
-			try {
-				const newItems = await getUsers(0, String(limit));
-
-				setUsers(newItems);
-			} finally {
-				setIsLoading(false);
-				dispatch(setRefetchUsers({ isRefetchUsers: false }));
-			}
-		},
-		[lastIndex]
-	);
+	useInfiniteScroll(fetchUsers, isLoading, loaderRef);
 
 	useEffect(() => {
-		if (isRefetchUser) {
+		if (isRefetching) {
 			refetchUsers(changedUserIndex);
 		}
-	}, [isRefetchUser]);
-	const fetchItems = useCallback(async () => {
-		setIsLoading(true);
-		try {
-			const newItems = await getUsers(lastIndex);
-			if (newItems.length > 0) {
-				setUsers((prevItems) => [...prevItems, ...newItems]);
-			}
-		} finally {
-			setIsLoading(false);
-		}
-	}, [lastIndex]);
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				const entry = entries[0];
-				if (entry.isIntersecting && !isLoading) {
-					fetchItems();
-				}
-			},
-			{ root: null, rootMargin: "20px", threshold: 0.5 }
-		);
-
-		if (loaderRef.current) {
-			observer.observe(loaderRef.current);
-		}
-
-		return () => observer.disconnect();
-	}, [isLoading, fetchItems]);
-
-	const dispatch = useAppDispatch();
+	}, [isRefetching, changedUserIndex, refetchUsers]);
 
 	const handleSelectUser: React.MouseEventHandler<HTMLDivElement> =
 		useCallback(
@@ -90,7 +37,7 @@ const VirtualizedList = () => {
 			},
 			[dispatch, users]
 		);
-
+	console.log(isLoading);
 	return (
 		<div className={S.user_list}>
 			{users.map((user) => (
@@ -101,11 +48,11 @@ const VirtualizedList = () => {
 					onClick={handleSelectUser}
 				/>
 			))}
-			<div ref={loaderRef} className={S.loader}>
+			<h3 ref={loaderRef} className={S.loader}>
 				{isLoading && "Загрузка..."}
-			</div>
+			</h3>
 		</div>
 	);
-};
+});
 
-export default VirtualizedList;
+UsersList.displayName = "UsersList";
