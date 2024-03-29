@@ -1,0 +1,16 @@
+.user_card {
+	padding: 12px 8px;
+
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	transition: 0.3s background-color;
+}
+
+.user_card_selected {
+	background-color: darkblue;
+}
+.user_card:hover {
+	background-color: darkgrey;
+	cursor: pointer;
+}
