@@ -1,0 +1,17 @@
+.user_header {
+	padding: 32px;
+	background-color: darkgray;
+}
+
+.user_form {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+
+	padding: 32px;
+}
+
+.button {
+	margin-top: 32px;
+	padding: 12px;
+}
