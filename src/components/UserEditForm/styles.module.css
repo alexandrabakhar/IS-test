@@ -3,6 +3,9 @@
 	background-color: darkgray;
 }
 
+.user_edit_form {
+	height: 100vh;
+}
 .user_form {
 	display: flex;
 	flex-direction: column;
