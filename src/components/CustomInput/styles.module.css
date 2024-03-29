@@ -1,0 +1,14 @@
+.input_box {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	align-items: center;
+}
+
+.input {
+	padding: 6px 12px;
+}
+
+.label {
+	margin-right: 20px;
+	cursor: pointer;
+}
