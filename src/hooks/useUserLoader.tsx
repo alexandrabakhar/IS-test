@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { getUsers } from "../api/getUsers";
 import { User } from "../types";
 import { useAppDispatch } from "../redux/store";
@@ -16,7 +16,7 @@ export const useUsersLoader = () => {
 			const newItems = await getUsers(lastIndex);
 			if (newItems.length > 0) {
 				setUsers((prevItems) => [...prevItems, ...newItems]);
-				setLastIndex((prevIndex) => prevIndex + newItems.length);
+				setLastIndex(Number(newItems[newItems.length - 1].index));
 			}
 		} finally {
 			dispatch(setIsLoading(false));
@@ -26,7 +26,6 @@ export const useUsersLoader = () => {
 	const refetchUsers = useCallback(
 		async (changedIndex: string) => {
 			dispatch(setIsLoading(true));
-			console.log(changedIndex);
 
 			const limit =
 				Number(changedIndex) <= 20 ? "20" : Number(changedIndex) + 20;
@@ -42,10 +41,6 @@ export const useUsersLoader = () => {
 		},
 		[dispatch]
 	);
-
-	useEffect(() => {
-		setLastIndex(users.length);
-	}, [users.length]);
 
 	return { users, fetchUsers, refetchUsers };
 };

@@ -1,5 +1,5 @@
 import { changeUserData } from "../api/changeUserData";
-import { startRefetchUsers } from "../redux/slices/load";
+import { setIsLoading, startRefetchUsers } from "../redux/slices/load";
 import { setChangedUserData, setIsDataChanged } from "../redux/slices/user";
 import { useAppDispatch } from "../redux/store";
 import { ChangeData, OnChangedUserSuccess } from "../types";
@@ -13,7 +13,7 @@ export const useFormSubmit = () => {
 	) => {
 		dispatch(startRefetchUsers({ changedUserIndex: userIndex }));
 		dispatch(setChangedUserData(changedUserData));
-        dispatch(setIsDataChanged(false))
+		dispatch(setIsDataChanged(false));
 	};
 	const changeData: ChangeData = (initValues) => (event) => {
 		const {
@@ -26,6 +26,7 @@ export const useFormSubmit = () => {
 		event.preventDefault();
 		const form = event.currentTarget;
 
+		dispatch(setIsLoading(true));
 		const { name, department, company, jobTitle } = form;
 
 		const changedUserData = {
@@ -44,7 +45,7 @@ export const useFormSubmit = () => {
 		};
 
 		if (!Object.keys(changedUserData).length) {
-            dispatch(setIsDataChanged(false))
+			dispatch(setIsDataChanged(false));
 			return;
 		}
 

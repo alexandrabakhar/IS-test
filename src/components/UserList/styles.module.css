@@ -4,7 +4,7 @@
 	height: 100vh;
 }
 
-.loader {
-	text-align: center;
-	padding: 12px;
+.refetch_trigger {
+	height: 60px;
+	width: 20px;
 }
