@@ -13,6 +13,7 @@ export const useFormSubmit = () => {
 	) => {
 		dispatch(startRefetchUsers({ changedUserIndex: userIndex }));
 		dispatch(setChangedUserData(changedUserData));
+        dispatch(setIsDataChanged(false))
 	};
 	const changeData: ChangeData = (initValues) => (event) => {
 		const {
