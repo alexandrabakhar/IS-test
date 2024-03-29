@@ -16,7 +16,13 @@ export const App = memo(() => {
 		<div className={S.App}>
 			<UsersList />
 
-			{isSelected && <UserEditForm />}
+			{isSelected ? (
+				<UserEditForm />
+			) : (
+				<h3 className={S.placeholder}>
+					Пожалуйста, выберите пользователя из списка
+				</h3>
+			)}
 		</div>
 	);
 });
