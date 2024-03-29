@@ -1,0 +1,5 @@
+.user_list {
+	background-color: bisque;
+	overflow-y: scroll;
+	height: 100vh;
+}
