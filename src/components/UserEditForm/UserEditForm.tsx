@@ -1,93 +1,50 @@
-import React from "react";
 import { CustomInput } from "../CustomInput/CustomInput";
 import S from "./styles.module.css";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useAppSelector } from "../../redux/store";
 
-import { ChangedUserData, changeUserData } from "../../api/changeUserData";
+import { useFormSubmit } from "../../hooks/useFormSubmit";
 
-import { setChangedUserData } from "../../redux/slices/user";
-import { startRefetchUsers } from "../../redux/slices/load";
-
-type FormFields = {
-	name: HTMLInputElement;
-	department: HTMLInputElement;
-	company: HTMLInputElement;
-	jobTitle: HTMLInputElement;
-};
 export const UserEditForm = () => {
-	const {
-		name: initName,
-		department: initDepartment,
-		company: initCompany,
-		jobTitle: initJobTitle,
-		id,
+	const { name, department, company, jobTitle, id, index } = useAppSelector(
+		(state) => state.currentUser
+	);
+	const { changeData } = useFormSubmit();
+
+	const handleChangeData = changeData({
+		name,
+		department,
+		company,
+		jobTitle,
 		index,
-	} = useAppSelector((state) => state.currentUser);
-	const { isLoading } = useAppSelector((state) => state.load);
-	const dispatch = useAppDispatch();
-	const onChangedUserSuccess = (
-		userIndex: string,
-		changedUserData: ChangedUserData
-	) => {
-		dispatch(startRefetchUsers({ changedUserIndex: userIndex }));
-		dispatch(setChangedUserData(changedUserData));
-	};
-	const handleSubmit: React.FormEventHandler<HTMLFormElement & FormFields> = (
-		event
-	) => {
-		event.preventDefault();
-		const form = event.currentTarget;
-
-		const { name, department, company, jobTitle } = form;
-
-		const changedUserData = {
-			...(name.value !== initName && {
-				name: name.value,
-			}),
-			...(company.value !== initCompany && {
-				company: company.value,
-			}),
-			...(department.value !== initDepartment && {
-				department: department.value,
-			}),
-			...(jobTitle.value !== initJobTitle && {
-				jobTitle: jobTitle.value,
-			}),
-		};
-
-		if (!Object.keys(changedUserData).length) {
-			return;
-		}
-
-		changeUserData(index, changedUserData, onChangedUserSuccess);
-	};
+		id,
+	});
 
 	return (
 		<div className={S.user_edit_form}>
-			<h3 className={S.user_header}>{initName}</h3>
-			<form className={S.user_form} onSubmit={handleSubmit} key={id}>
+			<h3 className={S.user_header}>{name}</h3>
+			<form className={S.user_form} onSubmit={handleChangeData} key={id}>
 				<CustomInput
-					defaultValue={initName}
-					inputType="name"
+					defaultValue={name}
+					inputName="name"
 					labelText="Имя"
 				/>
 				<CustomInput
-					defaultValue={initDepartment}
-					inputType="department"
+					defaultValue={department}
+					inputName="department"
 					labelText="Отдел"
 				/>
 				<CustomInput
-					defaultValue={initCompany}
-					inputType="company"
+					defaultValue={company}
+					inputName="company"
 					labelText="Компания"
 				/>
 				<CustomInput
-					defaultValue={initJobTitle}
-					inputType="jobTitle"
+					defaultValue={jobTitle}
+					inputName="jobTitle"
 					labelText="Должность"
 				/>
 				<button className={S.button} type="submit">
-					{isLoading ? "Отправка..." : "Отправить"}
+					Отправить
 				</button>
 			</form>
 		</div>

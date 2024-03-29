@@ -1,11 +1,10 @@
-import { User } from "../types";
+import { GetUsers } from "../types";
 
-export const getUsers = async (lastIndex: number, limit = '20'): Promise<User[]> => {
+export const getUsers: GetUsers = async (lastIndex, limit = "20") => {
 	const query = lastIndex
 		? `orderBy="$key"&startAt="${lastIndex + 1}"&limitToFirst=${limit}`
 		: `orderBy="$key"&limitToFirst=${limit}`;
 
-    
 	const response = await fetch(
 		`https://testforinfinitesynergy-default-rtdb.europe-west1.firebasedatabase.app/.json/?${query}`
 	);

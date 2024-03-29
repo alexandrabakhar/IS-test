@@ -37,7 +37,7 @@ export const UsersList = memo(() => {
 			},
 			[dispatch, users]
 		);
-	console.log(isLoading);
+
 	return (
 		<div className={S.user_list}>
 			{users.map((user) => (

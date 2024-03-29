@@ -1,4 +1,3 @@
-// hooks/useUsersLoader.js
 import { useState, useCallback, useEffect } from "react";
 import { getUsers } from "../api/getUsers";
 import { User } from "../types";

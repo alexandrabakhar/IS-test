@@ -1,15 +1,10 @@
-export type ChangedUserData = {
-	name?: string;
-	department?: string;
-	company?: string;
-	jobTitle?: string;
-};
+import { ChangeUserData } from "../types";
 
-export const changeUserData = async (
-	userIndex: string,
-	userData: ChangedUserData,
-	onSuccess: (userIndex: string, changedUserData: ChangedUserData) => void
-): Promise<void> => {
+export const changeUserData: ChangeUserData = async (
+	userIndex,
+	userData,
+	onSuccess
+) => {
 	try {
 		const response = await fetch(
 			`https://testforinfinitesynergy-default-rtdb.europe-west1.firebasedatabase.app/${userIndex}.json`,

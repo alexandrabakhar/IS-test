@@ -1,9 +1,10 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { User } from "../../types";
+import { createSlice } from "@reduxjs/toolkit";
+import {
+	SetChangedUserDataPayload,
+	SetCurrentUserDataPayload,
+	UserState,
+} from "../../types";
 
-type UserState = User & {
-	isSelected?: boolean;
-};
 const initialState: UserState = {
 	name: "",
 	department: "",
@@ -18,19 +19,7 @@ const currentUserSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-		setCurrentUserData: (
-			state,
-			{
-				payload,
-			}: PayloadAction<{
-				name: string;
-				department: string;
-				company: string;
-				jobTitle: string;
-				id: string;
-				index: string;
-			}>
-		) => {
+		setCurrentUserData: (state, { payload }: SetCurrentUserDataPayload) => {
 			state.company = payload.company;
 			state.department = payload.department;
 			state.jobTitle = payload.jobTitle;
@@ -40,17 +29,8 @@ const currentUserSlice = createSlice({
 			state.isSelected = true;
 		},
 
-		setChangedUserData: (
-			state,
-			{
-				payload,
-			}: PayloadAction<{
-				name?: string;
-				department?: string;
-				company?: string;
-				jobTitle?: string;
-			}>
-		) => {
+		// метод, меняющий только измененные данные
+		setChangedUserData: (state, { payload }: SetChangedUserDataPayload) => {
 			state.company = payload.company ? payload.company : state.company;
 			state.department = payload.department
 				? payload.department

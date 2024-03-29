@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import "./App.css";
+import "./App.module.css";
 
 import { UserEditForm } from "./components/UserEditForm/UserEditForm";
 import { UsersList } from "./components/UserList/UserList";

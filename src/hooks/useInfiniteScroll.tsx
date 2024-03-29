@@ -1,9 +1,10 @@
 import { useEffect } from "react";
+import { UseInfiniteScroll } from "../types";
 
-export const useInfiniteScroll = (
-	callback: () => Promise<void>,
-	isLoading: boolean,
-	ref: React.MutableRefObject<HTMLDivElement | null>
+export const useInfiniteScroll: UseInfiniteScroll = (
+	callback,
+	isLoading,
+	ref
 ) => {
 	useEffect(() => {
 		const observer = new IntersectionObserver(
