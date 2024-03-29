@@ -1,8 +1,9 @@
 import React from "react";
 import { CustomInput } from "../CustomInput/CustomInput";
 import S from "./styles.module.css";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { setCurrentUserData } from "../../redux/slices/user";
+import { useAppSelector } from "../../redux/store";
+
+import { changeUserData } from "../../api/changeUserData";
 
 type FormFields = {
 	name: HTMLInputElement;
@@ -11,11 +12,15 @@ type FormFields = {
 	jobTitle: HTMLInputElement;
 };
 export const UserEditForm = () => {
-	const { name, department, company, jobTitle } = useAppSelector(
-		(state) => state.currentUser
-	);
-	const dispatch = useAppDispatch();
-	
+	const {
+		name: initName,
+		department: initDepartment,
+		company: initCompany,
+		jobTitle: initJobTitle,
+		id,
+		index,
+	} = useAppSelector((state) => state.currentUser);
+
 	const handleSubmit: React.FormEventHandler<HTMLFormElement & FormFields> = (
 		event
 	) => {
@@ -24,37 +29,45 @@ export const UserEditForm = () => {
 
 		const { name, department, company, jobTitle } = form;
 
-		dispatch(
-			setCurrentUserData({
+		const changedUserData = {
+			...(name.value !== initName && {
 				name: name.value,
-				department: department.value,
+			}),
+			...(company.value !== initCompany && {
 				company: company.value,
+			}),
+			...(department.value !== initDepartment && {
+				department: department.value,
+			}),
+			...(jobTitle.value !== initJobTitle && {
 				jobTitle: jobTitle.value,
-			})
-		);
+			}),
+		};
+
+		changeUserData(index, changedUserData);
 	};
 
 	return (
 		<div className={S.user_edit_form}>
-			<h3 className={S.user_header}>{name}</h3>
-			<form className={S.user_form} onSubmit={handleSubmit}>
+			<h3 className={S.user_header}>{initName}</h3>
+			<form className={S.user_form} onSubmit={handleSubmit} key={id}>
 				<CustomInput
-					defaultValue={name}
+					defaultValue={initName}
 					inputType="name"
 					labelText="Имя"
 				/>
 				<CustomInput
-					defaultValue={department}
+					defaultValue={initDepartment}
 					inputType="department"
 					labelText="Отдел"
 				/>
 				<CustomInput
-					defaultValue={company}
+					defaultValue={initCompany}
 					inputType="company"
 					labelText="Компания"
 				/>
 				<CustomInput
-					defaultValue={jobTitle}
+					defaultValue={initJobTitle}
 					inputType="jobTitle"
 					labelText="Должность"
 				/>

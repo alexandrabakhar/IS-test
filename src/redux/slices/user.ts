@@ -1,34 +1,20 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types";
 
-type UserState = User & {
-	userIndex: number;
-};
+type UserState = User;
 const initialState: UserState = {
 	name: "",
 	department: "",
 	company: "",
 	jobTitle: "",
 	id: "",
-	userIndex: 0,
+	index: "",
 };
 
 const currentUserSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-		setCurrentUserId: (
-			state,
-			{ payload }: PayloadAction<{ userId: User["id"] }>
-		) => {
-			state.id = payload.userId;
-		},
-		setCurrentUserIndex: (
-			state,
-			{ payload }: PayloadAction<{ userIndex: UserState["userIndex"] }>
-		) => {
-			state.userIndex = payload.userIndex;
-		},
 		setCurrentUserData: (
 			state,
 			{
@@ -38,16 +24,19 @@ const currentUserSlice = createSlice({
 				department: string;
 				company: string;
 				jobTitle: string;
+				id: string;
+				index: string
 			}>
 		) => {
 			state.company = payload.company;
 			state.department = payload.department;
 			state.jobTitle = payload.jobTitle;
 			state.name = payload.name;
+			state.id = payload.id;
+			state.index = payload.index
 		},
 	},
 });
 
-export const { setCurrentUserData, setCurrentUserId, setCurrentUserIndex } =
-	currentUserSlice.actions;
+export const { setCurrentUserData } = currentUserSlice.actions;
 export const currentUserReducer = currentUserSlice.reducer;

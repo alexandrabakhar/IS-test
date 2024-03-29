@@ -4,12 +4,9 @@ import { UserCard } from "../UserCard/UserCard";
 import { useAppDispatch } from "../../redux/store";
 import { setCurrentUserData } from "../../redux/slices/user";
 import S from "./styles.module.css";
+import { getUsers } from "../../api/getUsers";
 
-interface VirtualizedListProps {
-	loadPage: (pageNumber: number) => Promise<User[]>;
-}
-
-const VirtualizedList: React.FC<VirtualizedListProps> = ({ loadPage }) => {
+const VirtualizedList = () => {
 	const [users, setUsers] = useState<User[]>([]);
 	const [lastIndex, setLastIndex] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
@@ -24,14 +21,14 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({ loadPage }) => {
 	const fetchItems = useCallback(async () => {
 		setIsLoading(true);
 		try {
-			const newItems = await loadPage(lastIndex);
+			const newItems = await getUsers(lastIndex);
 			if (newItems.length > 0) {
 				setUsers((prevItems) => [...prevItems, ...newItems]);
 			}
 		} finally {
 			setIsLoading(false);
 		}
-	}, [lastIndex, loadPage]);
+	}, [lastIndex]);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -60,6 +57,7 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({ loadPage }) => {
 				const selectedUserData = users.find(
 					(user) => user.id === selectedUserId
 				);
+
 				if (selectedUserData) {
 					dispatch(setCurrentUserData(selectedUserData));
 				}

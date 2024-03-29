@@ -4,6 +4,7 @@ export type User = {
 	company: string;
 	jobTitle: string;
 	id: string
+	index: string
 };
 
 
