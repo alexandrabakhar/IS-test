@@ -39,6 +39,7 @@ export type ChangeUserData = (
 export type GetUsers = (lastIndex: number, limit?: string) => Promise<User[]>;
 export type UserState = User & {
 	isSelected: boolean;
+	isDataChanged: boolean
 };
 
 export type SetCurrentUserDataPayload = PayloadAction<User>;

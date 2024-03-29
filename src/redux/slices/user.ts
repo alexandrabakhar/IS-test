@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
 	SetChangedUserDataPayload,
 	SetCurrentUserDataPayload,
@@ -13,6 +13,7 @@ const initialState: UserState = {
 	id: "",
 	index: "",
 	isSelected: false,
+	isDataChanged: false,
 };
 
 const currentUserSlice = createSlice({
@@ -40,9 +41,12 @@ const currentUserSlice = createSlice({
 				: state.jobTitle;
 			state.name = payload.name ? payload.name : state.name;
 		},
+		setIsDataChanged: (state, { payload }: PayloadAction<boolean>) => {
+			state.isDataChanged = payload;
+		},
 	},
 });
 
-export const { setCurrentUserData, setChangedUserData } =
+export const { setCurrentUserData, setChangedUserData, setIsDataChanged } =
 	currentUserSlice.actions;
 export const currentUserReducer = currentUserSlice.reducer;

@@ -5,7 +5,7 @@ import { useAppSelector } from "../../redux/store";
 import { useFormSubmit } from "../../hooks/useFormSubmit";
 
 export const UserEditForm = () => {
-	const { name, department, company, jobTitle, id, index } = useAppSelector(
+	const { name, department, company, jobTitle, id, index, isDataChanged } = useAppSelector(
 		(state) => state.currentUser
 	);
 	const { changeData } = useFormSubmit();
@@ -43,7 +43,7 @@ export const UserEditForm = () => {
 					inputName="jobTitle"
 					labelText="Должность"
 				/>
-				<button className={S.button} type="submit">
+				<button disabled={!isDataChanged} className={S.button} type="submit">
 					Отправить
 				</button>
 			</form>

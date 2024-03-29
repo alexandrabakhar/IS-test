@@ -1,6 +1,6 @@
 import { changeUserData } from "../api/changeUserData";
 import { startRefetchUsers } from "../redux/slices/load";
-import { setChangedUserData } from "../redux/slices/user";
+import { setChangedUserData, setIsDataChanged } from "../redux/slices/user";
 import { useAppDispatch } from "../redux/store";
 import { ChangeData, OnChangedUserSuccess } from "../types";
 
@@ -43,6 +43,7 @@ export const useFormSubmit = () => {
 		};
 
 		if (!Object.keys(changedUserData).length) {
+            dispatch(setIsDataChanged(false))
 			return;
 		}
 
