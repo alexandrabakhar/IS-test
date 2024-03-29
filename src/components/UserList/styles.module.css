@@ -1,5 +1,10 @@
 .user_list {
-	background-color: bisque;
+	background-color: lightgray;
 	overflow-y: scroll;
 	height: 100vh;
+}
+
+.loader {
+	text-align: center;
+	padding: 12px;
 }

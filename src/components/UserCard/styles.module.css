@@ -8,9 +8,9 @@
 }
 
 .user_card_selected {
-	background-color: grey;
+	background-color: darkgrey;
 }
 .user_card:hover {
-	background-color: darkgrey;
+	background-color: grey;
 	cursor: pointer;
 }
