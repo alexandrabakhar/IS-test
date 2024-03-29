@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import "./App.module.css";
+import S from "./App.module.css";
 
 import { UserEditForm } from "./components/UserEditForm/UserEditForm";
 import { UsersList } from "./components/UserList/UserList";
@@ -13,7 +13,7 @@ export const App = memo(() => {
 		console.log("isSelected " + isSelected);
 	}, [isSelected]);
 	return (
-		<div className="App">
+		<div className={S.App}>
 			<UsersList />
 
 			{isSelected && <UserEditForm />}
