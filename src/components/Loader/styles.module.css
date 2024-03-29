@@ -1,0 +1,6 @@
+.loader {
+	height: 2px;
+	background-color: black;
+	position: fixed;
+	top: 0px;
+}
