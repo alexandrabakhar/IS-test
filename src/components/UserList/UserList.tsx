@@ -40,18 +40,14 @@ export const UsersList = memo(() => {
 
 	return (
 		<div className={S.user_list}>
-			{users.map((user) => {
-				if (!user.name) return; // из-за особенностей апи, нулевой элемент не существует
-
-				return (
-					<UserCard
-						key={user.id}
-						userId={user.id}
-						name={user.name}
-						onClick={handleSelectUser}
-					/>
-				);
-			})}
+			{users.map((user) => (
+				<UserCard
+					key={user.id}
+					userId={user.id}
+					name={user.name}
+					onClick={handleSelectUser}
+				/>
+			))}
 			<div ref={refetchTrigger} className={S.refetch_trigger}></div>
 		</div>
 	);
