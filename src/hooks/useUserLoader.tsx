@@ -3,10 +3,9 @@ import { getUsers } from "../api/getUsers";
 import { User } from "../types";
 import { useAppDispatch } from "../redux/store";
 import { endRefetchUsers, setIsLoading } from "../redux/slices/load";
-import { updateStartIndex } from "../utils/updateStartIndex";
 
 export const useUsersLoader = () => {
-	const [users, setUsers] = useState<User[]>([]);
+	const [users, setUsers] = useState<Map<string, User>>(new Map());
 	const [startIndex, setStartIndex] = useState(0);
 	const dispatch = useAppDispatch();
 
@@ -15,9 +14,16 @@ export const useUsersLoader = () => {
 
 		try {
 			const newItems = await getUsers(startIndex);
-			if (newItems.length > 0) {
-				setUsers((prevItems) => [...prevItems, ...newItems]);
-				updateStartIndex(setStartIndex, newItems);
+
+			setUsers((prevItems) => {
+				const updatedMap = new Map(prevItems);
+				newItems.forEach((value, key) => {
+					updatedMap.set(key, value);
+				});
+				return updatedMap;
+			});
+			if (newItems.size > 0) {
+				setStartIndex((prevIndex) => prevIndex + newItems.size);
 			}
 		} finally {
 			dispatch(setIsLoading(false));

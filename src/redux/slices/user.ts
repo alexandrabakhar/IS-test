@@ -25,9 +25,10 @@ const currentUserSlice = createSlice({
 			state.department = payload.department;
 			state.jobTitle = payload.jobTitle;
 			state.name = payload.name;
-			state.id = payload.id;
+			state.id = payload.key;
 			state.index = payload.index;
 			state.isSelected = true;
+
 		},
 
 		// метод, меняющий только измененные данные

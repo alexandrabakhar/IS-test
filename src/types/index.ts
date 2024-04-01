@@ -36,13 +36,16 @@ export type ChangeUserData = (
 	userData: ChangedUserData,
 	onSuccess: OnChangedUserSuccess
 ) => Promise<void>;
-export type GetUsers = (lastIndex: number, limit?: string) => Promise<User[]>;
+export type GetUsers = (
+	lastIndex: number,
+	limit?: string
+) => Promise<Map<string, User>>;
 export type UserState = User & {
 	isSelected: boolean;
-	isDataChanged: boolean
+	isDataChanged: boolean;
 };
 
-export type SetCurrentUserDataPayload = PayloadAction<User>;
+export type SetCurrentUserDataPayload = PayloadAction<User & { key: string }>;
 export type SetChangedUserDataPayload = PayloadAction<ChangedUserData>;
 
 export type UseInfiniteScroll = (

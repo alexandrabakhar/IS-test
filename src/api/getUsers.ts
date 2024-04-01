@@ -13,14 +13,22 @@ export const getUsers: GetUsers = async (startIndex, limit) => {
 	}
 	const data = await response.json();
 
-	const itemsArray = Object.keys(data).map((key) => {
-		const item = data[key];
+	const usersMap = new Map();
 
-		return {
-			...item,
-			index: key,
-		};
-	});
+	for (const [key, userInfo] of Object.entries(data)) {
+		usersMap.set(key, userInfo);
+	}
+	console.log(usersMap);
 
-	return itemsArray;
+	// const itemsArray = Object.keys(data).map((key) => {
+	// 	const item = data[key];
+
+	// 	return {
+	// 		...item,
+	// 		index: key,
+	// 	};
+	// });
+
+	return usersMap;
+	// return itemsArray;
 };

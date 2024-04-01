@@ -27,12 +27,16 @@ export const UsersList = memo(() => {
 		useCallback(
 			(event) => {
 				const selectedUserId = event.currentTarget.id;
-				const selectedUserData = users.find(
-					(user) => user.id === selectedUserId
-				);
+
+				const selectedUserData = users.get(selectedUserId);
 
 				if (selectedUserData) {
-					dispatch(setCurrentUserData(selectedUserData));
+					dispatch(
+						setCurrentUserData({
+							...selectedUserData,
+							key: selectedUserId,
+						})
+					);
 				}
 			},
 			[dispatch, users]
@@ -40,11 +44,11 @@ export const UsersList = memo(() => {
 
 	return (
 		<div className={S.user_list}>
-			{users.map((user) => (
+			{Array.from(users.entries()).map(([userKey, { name, id }]) => (
 				<UserCard
-					key={user.id}
-					userId={user.id}
-					name={user.name}
+					key={userKey}
+					userId={userKey}
+					name={name}
 					onClick={handleSelectUser}
 				/>
 			))}
