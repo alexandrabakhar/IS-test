@@ -18,7 +18,6 @@ export const getUsers: GetUsers = async (startIndex, limit) => {
 	for (const [key, userInfo] of Object.entries(data)) {
 		usersMap.set(key, userInfo);
 	}
-	console.log(usersMap);
 
 	return usersMap;
 };

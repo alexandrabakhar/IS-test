@@ -34,7 +34,7 @@ export const UsersList = memo(() => {
 					dispatch(
 						setCurrentUserData({
 							...selectedUserData,
-							key: selectedUserId,
+							index: selectedUserId,
 						})
 					);
 				}

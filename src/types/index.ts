@@ -45,7 +45,7 @@ export type UserState = User & {
 	isDataChanged: boolean;
 };
 
-export type SetCurrentUserDataPayload = PayloadAction<User & { key: string }>;
+export type SetCurrentUserDataPayload = PayloadAction<User & { index: string }>;
 export type SetChangedUserDataPayload = PayloadAction<ChangedUserData>;
 
 export type UseInfiniteScroll = (

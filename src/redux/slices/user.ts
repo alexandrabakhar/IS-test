@@ -25,7 +25,7 @@ const currentUserSlice = createSlice({
 			state.department = payload.department;
 			state.jobTitle = payload.jobTitle;
 			state.name = payload.name;
-			state.id = payload.key;
+			state.id = payload.index;
 			state.index = payload.index;
 			state.isSelected = true;
 
