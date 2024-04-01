@@ -20,15 +20,5 @@ export const getUsers: GetUsers = async (startIndex, limit) => {
 	}
 	console.log(usersMap);
 
-	// const itemsArray = Object.keys(data).map((key) => {
-	// 	const item = data[key];
-
-	// 	return {
-	// 		...item,
-	// 		index: key,
-	// 	};
-	// });
-
 	return usersMap;
-	// return itemsArray;
 };
